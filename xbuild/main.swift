@@ -11,23 +11,29 @@ if let pathIndex = CommandLine.arguments.firstIndex(of: "--path"),
 }
 
 let noora = Noora()
+let searchDir = customPath ?? FileManager.default.currentDirectoryPath
 
-let projectInfo: ProjectInfo? = try await noora.progressStep(
-    message: "Loading project",
-    successMessage: "Project loaded",
-    errorMessage: "Failed to load project",
-    showSpinner: true
-) { _ in
-    ProjectInfo.fetch(inDirectory: customPath)
-}
-
-guard let projectInfo else {
+guard let projectPath = ProjectInfo.findProjectPath(inDirectory: searchDir) else {
+    noora.error("No .xcodeproj or .xcworkspace found in \(searchDir)")
     exit(1)
 }
 
-var config = Config.load(forProjectPath: projectInfo.path)
+var config = Config.load(forProjectPath: projectPath)
 
 if config == nil || forceReconfigure {
+    let projectInfo: ProjectInfo? = try await noora.progressStep(
+        message: "Loading project configuration",
+        successMessage: "Configuration loaded",
+        errorMessage: "Failed to load configuration",
+        showSpinner: true
+    ) { _ in
+        ProjectInfo.fetchDetails(forProjectAt: projectPath)
+    }
+
+    guard let projectInfo else {
+        exit(1)
+    }
+
     let simulators = Simulators.fetchAvailable()
 
     if simulators.isEmpty {

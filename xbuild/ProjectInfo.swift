@@ -6,18 +6,17 @@ struct ProjectInfo {
     let schemes: [String]
     let configurations: [String]
 
-    static func fetch(inDirectory directory: String? = nil) -> ProjectInfo? {
+    static func findProjectPath(inDirectory directory: String? = nil) -> String? {
         let searchDir = directory ?? FileManager.default.currentDirectoryPath
-        let projectPath = findProjectPath(inDirectory: searchDir)
+        return findPath(inDirectory: searchDir)
+    }
 
-        guard let path = projectPath else {
-            fputs("No .xcodeproj or .xcworkspace found in \(searchDir)\n", stderr)
-            return nil
-        }
+    static func fetchDetails(forProjectAt path: String) -> ProjectInfo? {
+        let directory = URL(fileURLWithPath: path).deletingLastPathComponent().path
 
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/xcodebuild")
-        process.currentDirectoryURL = URL(fileURLWithPath: searchDir)
+        process.currentDirectoryURL = URL(fileURLWithPath: directory)
         process.arguments = ["-list", "-json"]
 
         let pipe = Pipe()
@@ -55,7 +54,7 @@ struct ProjectInfo {
         return nil
     }
 
-    private static func findProjectPath(inDirectory directory: String) -> String? {
+    private static func findPath(inDirectory directory: String) -> String? {
         do {
             let contents = try FileManager.default.contentsOfDirectory(atPath: directory)
 
