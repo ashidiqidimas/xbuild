@@ -1,4 +1,5 @@
 import Foundation
+import Noora
 
 let forceReconfigure = CommandLine.arguments.contains("--configure")
 let verbose = CommandLine.arguments.contains("--verbose")
@@ -9,24 +10,34 @@ if let pathIndex = CommandLine.arguments.firstIndex(of: "--path"),
     customPath = CommandLine.arguments[pathIndex + 1]
 }
 
-guard let projectInfo = ProjectInfo.fetch(inDirectory: customPath) else {
-    exit(1)
+let noora = Noora()
+
+let projectInfo: ProjectInfo? = try await noora.progressStep(
+    message: "Loading project",
+    successMessage: "Project loaded",
+    errorMessage: "Failed to load project",
+    showSpinner: true
+) { _ in
+    ProjectInfo.fetch(inDirectory: customPath)
 }
 
-let simulators = Simulators.fetchAvailable()
-
-if simulators.isEmpty {
-    fputs("No available iOS simulators found\n", stderr)
+guard let projectInfo else {
     exit(1)
 }
 
 var config = Config.load(forProjectPath: projectInfo.path)
 
 if config == nil || forceReconfigure {
+    let simulators = Simulators.fetchAvailable()
+
+    if simulators.isEmpty {
+        fputs("No available iOS simulators found\n", stderr)
+        exit(1)
+    }
+
     let existingIdentifier = config?.identifier
     config = Prompts.run(projectInfo: projectInfo, simulators: simulators, existingIdentifier: existingIdentifier)
     Config.save(config!)
 }
 
 Builder.run(config: config!, verbose: verbose)
-
