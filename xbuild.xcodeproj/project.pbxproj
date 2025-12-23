@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1364E2992EFA4E31004DDE42 /* Noora in Frameworks */ = {isa = PBXBuildFile; productRef = 1364E2982EFA4E31004DDE42 /* Noora */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		138DB39C2EFA49A600E186E5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1364E2992EFA4E31004DDE42 /* Noora in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 			);
 			name = xbuild;
 			packageProductDependencies = (
+				1364E2982EFA4E31004DDE42 /* Noora */,
 			);
 			productName = xbuild;
 			productReference = 138DB39E2EFA49A600E186E5 /* xbuild */;
@@ -106,6 +112,9 @@
 			);
 			mainGroup = 138DB3952EFA49A600E186E5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1364E2972EFA4E31004DDE42 /* XCRemoteSwiftPackageReference "Noora" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 138DB39F2EFA49A600E186E5 /* Products */;
 			projectDirPath = "";
@@ -253,6 +262,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H9PJ7U2A6K;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -266,6 +276,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H9PJ7U2A6K;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -295,6 +306,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1364E2972EFA4E31004DDE42 /* XCRemoteSwiftPackageReference "Noora" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tuist/Noora";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.51.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1364E2982EFA4E31004DDE42 /* Noora */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1364E2972EFA4E31004DDE42 /* XCRemoteSwiftPackageReference "Noora" */;
+			productName = Noora;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 138DB3962EFA49A600E186E5 /* Project object */;
 }
