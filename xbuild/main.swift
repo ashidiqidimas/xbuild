@@ -1,6 +1,21 @@
 import Foundation
 import Noora
 
+if CommandLine.arguments.contains("--help") || CommandLine.arguments.contains("-h") {
+    print("""
+    xbuild - Fast xcodebuild wrapper with persistent configuration
+
+    USAGE: xbuild [OPTIONS]
+
+    OPTIONS:
+      --configure     Reconfigure scheme, configuration, and simulator
+      --verbose       Show full xcodebuild output
+      --path <dir>    Path to project directory
+      -h, --help      Show this help message
+    """)
+    exit(0)
+}
+
 let forceReconfigure = CommandLine.arguments.contains("--configure")
 let verbose = CommandLine.arguments.contains("--verbose")
 
